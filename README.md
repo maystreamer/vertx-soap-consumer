@@ -26,10 +26,10 @@ Execute blocking is used here along with the Async SOAP handlers.
 
 For running the app, (IDE used here is Eclipse)
 - Open **appConfig.json** file and set the "Port" as per your choice. No need to change other values.
-- Once, changes are done in **appConfig.json**, right click on the project("vertx-soap-consumer"), select "Run As" -> "Run Configurations". Set:
-  * a) Main class: com.vertx.soap.launcher.VertxSoapLauncher
-  * b) Program arguments: run com.vertx.soap.verticle.AppVerticle -conf ../vertx-soap-consumer/src/main/resources/appConfig.json
-  * c) VM arguments: -Dlogback.configurationFile=file:../vertx-soap-consumer/src/main/resources/logback.xml
+- Once, changes are done in **appConfig.json**, right click on the project("vertx-soap-consumer"), <br />select "Run As" -> "Run Configurations". Set:
+  * Main class: com.vertx.soap.launcher.VertxSoapLauncher
+  * Program arguments: run com.vertx.soap.verticle.AppVerticle -conf ../vertx-soap-consumer/src/main/resources/appConfig.json
+  * VM arguments: -Dlogback.configurationFile=file:../vertx-soap-consumer/src/main/resources/logback.xml
 After setting the variables, click "Run".
 - If app starts successfull, goto **http://localhost:8080/**. Status json {"status":"Ok"} will be served as response.
 - To call the SOAP/WCF service, do <br />
