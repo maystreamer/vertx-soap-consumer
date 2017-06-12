@@ -1,0 +1,37 @@
+{    
+  "PORT": 8080,
+  "PACKAGE": "com.vertx.soap.handler",
+  "DEPLOYMENT_OPTIONS": {
+    "ha": false,
+    "instances": 1,
+    "maxWorkerExecuteTime": 60000000000,
+    "multiThreaded": false,
+    "worker": false,
+    "workerPoolSize": 20
+  },
+  "HTTP_SERVER": {
+    "acceptUnmaskedFrames": false,
+    "alpnVersions": [
+      "HTTP_2",
+      "HTTP_1_1"
+    ],
+    "compressionLevel": 6,
+    "compressionSupported": false,
+    "decompressionSupported": false,
+    "handle100ContinueAutomatically": false,
+    "http2ConnectionWindowSize": -1,
+    "initialSettings": {
+      "headerTableSize": 4096,
+      "initialWindowSize": 65535,
+      "maxConcurrentStreams": 100,
+      "maxFrameSize": 16384,
+      "maxHeaderListSize": 2147483647,
+      "pushEnabled": true
+    },
+    "maxChunkSize": 8192,
+    "maxHeaderSize": 8192,
+    "maxInitialLineLength": 4096,
+    "maxWebsocketFrameSize": 65536,
+    "maxWebsocketMessageSize": 262144
+  }
+}

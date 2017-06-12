@@ -1,0 +1,62 @@
+buildscript {
+	ext {
+		axisVersion2		=	"1.7.5"
+		jUnitVersion		=	"4.12"
+		vertxVersion		=	"3.4.1"
+		logbackVersion		=	"1.2.3"
+		slf4jVersion		=	"1.5.25"
+		jsonVersion			=	"20160810"
+		cecCommonsVersion	=	"1.2.4"
+		reflectionVersion	=	"0.9.11"
+		gradleVersion		=	"3.5"
+		commonsLang3Version	=	"3.5"
+		sourceJavaVersion	=	"1.8"
+		targetJavaVersion	=	"1.8"
+	}
+}
+
+repositories {
+	jcenter()
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+mainClassName = 'com.vertx.soap.launcher'
+
+jar {
+	baseName = 'bulldozer'
+	version = '0.0.1'
+	manifest { 
+		attributes "Main-Verticle": mainClassName
+	}  
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
+
+compileJava {
+  targetCompatibility = sourceJavaVersion
+  sourceCompatibility = targetJavaVersion
+}
+
+dependencies {
+    compile "org.apache.axis2:axis2:${axisVersion2}",
+    		"org.apache.axis2:axis2-adb:${axisVersion2}",
+			"org.apache.axis2:axis2-transport-local:${axisVersion2}",
+			"org.apache.axis2:axis2-transport-http:${axisVersion2}",
+			"org.apache.axis2:axis2-kernel:${axisVersion2}",
+			"junit:junit:${jUnitVersion}",
+			"io.vertx:vertx-rx-java:${vertxVersion}",
+			"io.vertx:vertx-web:${vertxVersion}",
+    		"ch.qos.logback:logback-classic:${logbackVersion}",
+    		"ch.qos.logback:logback-core:${logbackVersion}",
+    		"org.slf4j:slf4j-api:${slf4jVersion}",
+    		"org.json:json:${jsonVersion}",
+    		"org.apache.commons:commons-lang3:${commonsLang3Version}",
+    		"org.reflections:reflections:${reflectionVersion}"
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = gradleVersion
+}
