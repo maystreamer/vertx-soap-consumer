@@ -17,6 +17,7 @@ import com.vertx.soap.models.RestResponse;
 import com.vertx.soap.service.GeoIPService;
 import com.vertx.soap.service.IGeoIPService;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 @Service(version = "v1", uri = "/geoip")
@@ -51,4 +52,10 @@ public class GeoIPSoapHandler extends BaseHandler {
 			routingContext.response().setStatusCode(500).end(toJsonString(response));
 		}
 	}
+	
+//	@Override
+//	@Get("/status")
+//	public void handle(RoutingContext ctx) {
+//		ctx.response().end(new JsonObject().put("status", "Ok").toString());
+//	}
 }

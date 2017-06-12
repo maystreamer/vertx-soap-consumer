@@ -1,5 +1,7 @@
 package com.vertx.soap.annotations;
 
+import static com.vertx.soap.constants.Constants.APP_NAME;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -7,8 +9,6 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
-
-import static com.vertx.soap.constants.Constants.*;
 
 import com.vertx.soap.config.AppConfig;
 import com.vertx.soap.config.IAppConfig;
@@ -18,6 +18,8 @@ import com.vertx.soap.handler.ErrorHandler;
 import com.vertx.soap.handler.HeaderHandler;
 
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.http.HttpServerResponse;
 import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.handler.BodyHandler;
 
@@ -47,6 +49,12 @@ public final class AnnotationProcessor {
 	}
 
 	private static void registerRoute(final Router router, final HttpMethod method, final String url, final Method m, final Class<? extends BaseHandler> clazz) {
+		router.route("/").handler(routingContext -> {
+            HttpServerResponse response = routingContext.response();
+            response
+                    .putHeader("content-type", "application/json")
+                    .end(new JsonObject().put("status", "Ok").toString());
+        });
 		router.route().handler(new HeaderHandler());
 		router.route().handler(BodyHandler.create());
 		router.route(method, StringUtils.join("/", APP_NAME, "/", url))
