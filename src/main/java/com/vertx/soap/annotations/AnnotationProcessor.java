@@ -15,13 +15,13 @@ import com.vertx.soap.config.IAppConfig;
 import com.vertx.soap.constants.MediaType;
 import com.vertx.soap.handler.BaseHandler;
 import com.vertx.soap.handler.ErrorHandler;
-import com.vertx.soap.handler.HeaderHandler;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerResponse;
 import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.handler.BodyHandler;
+import io.vertx.rxjava.ext.web.handler.ResponseContentTypeHandler;
 
 public final class AnnotationProcessor {
 	protected static final IAppConfig config = AppConfig.INSTANCE;
@@ -50,29 +50,27 @@ public final class AnnotationProcessor {
 
 	private static void registerRoute(final Router router, final HttpMethod method, final String url, final Method m, final Class<? extends BaseHandler> clazz) {
 		router.route("/").handler(routingContext -> {
-            HttpServerResponse response = routingContext.response();
-            response
-                    .putHeader("content-type", "application/json")
-                    .end(new JsonObject().put("status", "Ok").toString());
-        });
-		router.route().handler(new HeaderHandler());
+			HttpServerResponse response = routingContext.response();
+			response.putHeader("content-type", "application/json")
+					.end(new JsonObject().put("status", "Ok").toString());
+		});
+		router.route().handler(ResponseContentTypeHandler.create());
 		router.route().handler(BodyHandler.create());
 		router.route(method, StringUtils.join("/", APP_NAME, "/", url))
 			  .consumes(MediaType.APPLICATION_JSON)
-			  .produces(MediaType.APPLICATION_JSON)
-			  .handler(ctx -> {
-					try {
-						m.invoke(clazz.newInstance(), ctx);
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					}
-				});
-		router.route().last().failureHandler(new ErrorHandler());
+			  .produces(MediaType.APPLICATION_JSON).handler(ctx -> {
+				try {
+					m.invoke(clazz.newInstance(), ctx);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				}
+			  });
+		router.route().failureHandler(new ErrorHandler());
 	}
 }
