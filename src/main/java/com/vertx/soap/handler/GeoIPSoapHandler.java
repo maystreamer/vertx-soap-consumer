@@ -53,9 +53,9 @@ public class GeoIPSoapHandler extends BaseHandler {
 		}
 	}
 	
-//	@Override
-//	@Get("/status")
-//	public void handle(RoutingContext ctx) {
-//		ctx.response().end(new JsonObject().put("status", "Ok").toString());
-//	}
+	@Override
+	@Get("/status")
+	public void handle(RoutingContext ctx) {
+		ctx.response().end(new JsonObject().put("status", "Ok").toString());
+	}
 }
